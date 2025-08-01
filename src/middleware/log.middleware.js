@@ -1,9 +1,10 @@
+import axios from 'axios';
+import dotenv from "dotenv"
+dotenv.config();
 
+const baseUrl = process.env.BASE_URL
 
-const axios = require('axios');
-
-const baseUrl = 'http://20.244.56.144/evaluation-service/logs'
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJNYXBDbGFpbXMiOnsiYXVkIjoiaHR0cDovLzIwLjI0NC41Ni4xNDQvZXZhbHVhdGlvbi1zZXJ2aWNlIiwiZW1haWwiOiJwdmlqYXkyMDA0ODEwQGdtYWlsLmNvbSIsImV4cCI6MTc1NDAzMjIyOCwiaWF0IjoxNzU0MDMxMzI4LCJpc3MiOiJBZmZvcmQgTWVkaWNhbCBUZWNobm9sb2dpZXMgUHJpdmF0ZSBMaW1pdGVkIiwianRpIjoiNDQ0Mjg3Y2MtZmMzYi00YmY1LWIwNDMtZjU3OTc1M2NkMWVmIiwibG9jYWxlIjoiZW4tSU4iLCJuYW1lIjoicGVydWd1IHZpamF5Iiwic3ViIjoiZGJhNzhjZjMtZGNmMy00MGU2LWE3ZWItNjcxOGM0ZjUwZGRjIn0sImVtYWlsIjoicHZpamF5MjAwNDgxMEBnbWFpbC5jb20iLCJuYW1lIjoicGVydWd1IHZpamF5Iiwicm9sbE5vIjoiMjJicTFhNTRjMyIsImFjY2Vzc0NvZGUiOiJQblZCRlYiLCJjbGllbnRJRCI6ImRiYTc4Y2YzLWRjZjMtNDBlNi1hN2ViLTY3MThjNGY1MGRkYyIsImNsaWVudFNlY3JldCI6InBieGFTWFB1cVVTWnlIU0gifQ.o-86o77ppfcX3NrgOc4St56piq0T082R_R3gAORp0Bw"
+const token = process.env.TOKEN
 
 const backendPackages = [
   'cache', 'controller', 'cron_job', 'db', 'domain', 
@@ -11,11 +12,11 @@ const backendPackages = [
 ];
 
 const frontendPackages = [
-  'api', 'component', 'hook', 'page', 'state', 'style','backend'
+  'api', 'component', 'hook', 'page', 'state', 'style'
 ];
 
 const sharedPackages = [
-  'auth', 'config', 'middleware', 'utils', 'system', 'backend', 'url-shortener', 'urlshortener'
+  'auth', 'config', 'middleware', 'utils'
 ];
 
 
@@ -44,7 +45,7 @@ const Log = async (stack, level, pkg, message) => {
     stack: stack.toLowerCase(),
     level: level.toLowerCase(),
     package: pkg.toLowerCase(),
-    message: message.trim()
+    message: message
   };
 
   await sendLog(payload);
@@ -54,21 +55,22 @@ async function sendLog(payload) {
   try {
     const response = await axios.post(baseUrl, payload, {
       headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       },
-      timeout: 5000
+      timeout: 5000, // optional: helps detect network issues early
     });
+
     console.log('Log response:', response.data);
     return response.data;
   } catch (error) {
+    console.error('Failed to send log:', error.message);
     if (error.response) {
-      console.error('Failed to send log:', error.response.data);
-    } else {
-      console.error('Failed to send log:', error.message);
+      console.error('Server responded with:', error.response.status, error.response.data);
     }
     throw error;
   }
 }
 
-module.exports = { Log };
+
+export { Log };
