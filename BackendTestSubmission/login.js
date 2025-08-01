@@ -2,8 +2,8 @@
 
 const axios = require('axios');
 
-const baseUrl = 'http://28.244.56.144/evaluation-service/logs'
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJNYXBDbGFpbXMiOnsiYXVkIjoiaHR0cDovLzIwLjI0NC41Ni4xNDQvZXZhbHVhdGlvbi1zZXJ2aWNlIiwiZW1haWwiOiJwdmlqYXkyMDA0ODEwQGdtYWlsLmNvbSIsImV4cCI6MTc1NDAzMTEwNywiaWF0IjoxNzU0MDMwMjA3LCJpc3MiOiJBZmZvcmQgTWVkaWNhbCBUZWNobm9sb2dpZXMgUHJpdmF0ZSBMaW1pdGVkIiwianRpIjoiZDhlOWE3ODUtMDBhNy00ZTllLThiYjEtNmJkNTVjM2JlN2E1IiwibG9jYWxlIjoiZW4tSU4iLCJuYW1lIjoicGVydWd1IHZpamF5Iiwic3ViIjoiZGJhNzhjZjMtZGNmMy00MGU2LWE3ZWItNjcxOGM0ZjUwZGRjIn0sImVtYWlsIjoicHZpamF5MjAwNDgxMEBnbWFpbC5jb20iLCJuYW1lIjoicGVydWd1IHZpamF5Iiwicm9sbE5vIjoiMjJicTFhNTRjMyIsImFjY2Vzc0NvZGUiOiJQblZCRlYiLCJjbGllbnRJRCI6ImRiYTc4Y2YzLWRjZjMtNDBlNi1hN2ViLTY3MThjNGY1MGRkYyIsImNsaWVudFNlY3JldCI6InBieGFTWFB1cVVTWnlIU0gifQ.6OaZWCBHVr6SPbh_0F1fjO6HtHD1esz9SwkEborXuZw"
+const baseUrl = 'http://20.244.56.144/evaluation-service/logs'
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJNYXBDbGFpbXMiOnsiYXVkIjoiaHR0cDovLzIwLjI0NC41Ni4xNDQvZXZhbHVhdGlvbi1zZXJ2aWNlIiwiZW1haWwiOiJwdmlqYXkyMDA0ODEwQGdtYWlsLmNvbSIsImV4cCI6MTc1NDAzMjIyOCwiaWF0IjoxNzU0MDMxMzI4LCJpc3MiOiJBZmZvcmQgTWVkaWNhbCBUZWNobm9sb2dpZXMgUHJpdmF0ZSBMaW1pdGVkIiwianRpIjoiNDQ0Mjg3Y2MtZmMzYi00YmY1LWIwNDMtZjU3OTc1M2NkMWVmIiwibG9jYWxlIjoiZW4tSU4iLCJuYW1lIjoicGVydWd1IHZpamF5Iiwic3ViIjoiZGJhNzhjZjMtZGNmMy00MGU2LWE3ZWItNjcxOGM0ZjUwZGRjIn0sImVtYWlsIjoicHZpamF5MjAwNDgxMEBnbWFpbC5jb20iLCJuYW1lIjoicGVydWd1IHZpamF5Iiwicm9sbE5vIjoiMjJicTFhNTRjMyIsImFjY2Vzc0NvZGUiOiJQblZCRlYiLCJjbGllbnRJRCI6ImRiYTc4Y2YzLWRjZjMtNDBlNi1hN2ViLTY3MThjNGY1MGRkYyIsImNsaWVudFNlY3JldCI6InBieGFTWFB1cVVTWnlIU0gifQ.o-86o77ppfcX3NrgOc4St56piq0T082R_R3gAORp0Bw"
 
 const backendPackages = [
   'cache', 'controller', 'cron_job', 'db', 'domain', 
@@ -11,11 +11,11 @@ const backendPackages = [
 ];
 
 const frontendPackages = [
-  'api', 'component', 'hook', 'page', 'state', 'style'
+  'api', 'component', 'hook', 'page', 'state', 'style','backend'
 ];
 
 const sharedPackages = [
-  'auth', 'config', 'middleware', 'utils', 'system'
+  'auth', 'config', 'middleware', 'utils', 'system', 'backend', 'url-shortener', 'urlshortener'
 ];
 
 
@@ -57,7 +57,7 @@ async function sendLog(payload) {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
-      timeout: 15000 // Increased timeout to 15 seconds
+      timeout: 5000
     });
     console.log('Log response:', response.data);
     return response.data;
